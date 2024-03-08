@@ -2,9 +2,11 @@ import React, { useState } from "react"
 import Logo from "../asstes/logo.png"
 import { getTotalItems} from "../services/cart-services"
 import { useCart } from "./CartContext";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isToggleOpen, setIsToggleOpen] = useState(false)
   const { quantity } = useCart();
   
@@ -72,42 +74,46 @@ export default function Navbar() {
               }`}
             >
               <li role="none" className="flex items-stretch">
-                <a
+                <p
                   role="menuitem"
                   aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                  onClick={() => navigate("/")}
                 >
-                  <span>Shop</span>
-                </a>
+                  <span>
+                    Home
+                  </span>
+                </p>
               </li>
               <li role="none" className="flex items-stretch">
                 <a
                   role="menuitem"
                   aria-current="page"
                   aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 text-emerald-500 transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  className="flex items-center gap-2 py-4 text-emerald-500 transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                  onClick={() => navigate("/shop")}
                 >
-                  <span>Account</span>
+                  <span>
+                    Products
+                  </span>
                 </a>
               </li>
               <li role="none" className="flex items-stretch">
                 <a
                   role="menuitem"
                   aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                  onClick={() => navigate("/login")}
                 >
-                  <span>Wishlist</span>
+                  <span>Login</span>
                 </a>
               </li>
             </ul>
             {/*      <!-- Actions --> */}
             <div className="ml-auto flex items-center justify-end px-6 lg:ml-0 lg:flex-1 lg:p-0">
               <a
-                href="#"
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-lg text-emerald-500"
+                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-lg text-emerald-500 cursor-pointer"
+                onClick={() => navigate("/cart")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
