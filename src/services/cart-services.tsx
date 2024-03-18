@@ -4,7 +4,7 @@ const dispatchCartUpdate = () => {
     window.dispatchEvent(new CustomEvent('cartUpdated'));
 };
 
-const addToCart = (id:any) => {
+const addToCart = (id:any, name?:any) => {
     let cart = Cookies.get("cart");
     if (cart) {
         let cartArray = JSON.parse(cart);
@@ -14,12 +14,13 @@ const addToCart = (id:any) => {
         } else {
             cartArray.push({
                 id: id,
+                name: name,
                 quantity: 1
             });
         }
         Cookies.set("cart", JSON.stringify(cartArray));
     } else {
-        Cookies.set("cart", JSON.stringify([{ id: id, quantity: 1 }]));
+        Cookies.set("cart", JSON.stringify([{ id: id, quantity: 1, name: name}]));
     }
     dispatchCartUpdate();
 };
@@ -77,11 +78,17 @@ const getTotalItems = () => {
     return 0;
 }
 
+const updateAllCartItems = (cartItems:any) => {
+    Cookies.set("cart", JSON.stringify(cartItems));
+    dispatchCartUpdate();
+}
+
 export {
     addToCart,
     getCart,
     removeFromCart,
     getItemQuantity,
     reduceQuantity,
-    getTotalItems
+    getTotalItems,
+    updateAllCartItems
 };

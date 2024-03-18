@@ -96,7 +96,7 @@ const ProductDetails = () => {
                                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 ease-in-out my-6"
                                 onClick={() => {
                                     setQuantity(quantity + 1);
-                                    addToCart(product.id);
+                                    addToCart(product.id , product.name);
                                 }}
                                 >
                                     Add to Cart
