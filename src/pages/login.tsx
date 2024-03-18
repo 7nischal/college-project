@@ -1,8 +1,33 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
+import { login } from "../services/black/user-services"
 
 export default function Login() {
     const navigate = useNavigate()
+    const [user, setUser] = React.useState({
+        email: "",
+        password: "",
+    })
+    const [error, setError] = React.useState("")
+    const [loading, setLoading] = React.useState(false)
+
+    const isDataValid = () => {
+        return user.email !== "" && user.password !== ""
+    }
+
+    const handleLogin = async () => {
+        if (isDataValid()) {
+            try {
+                const response = await login(user)
+                console.log(response)
+                navigate("/")
+            } catch (error:any) {
+                console.log(error)
+                setError(error.message)
+            }
+        }
+    }
+
   return (
     <>
       {/*<!-- Component: Card with form --> */}
@@ -14,12 +39,19 @@ export default function Login() {
             <h3 className="text-xl font-medium text-slate-700">Login</h3>
           </header>
           <div className="flex flex-col space-y-8">
+            {/*      <!-- Error message --> */}
+            {error && (
+              <div className="p-4 text-red-500 bg-red-100 rounded-md">
+                {error}
+              </div>
+            )}
             {/*      <!-- Input field --> */}
             <div className="relative my-6">
               <input
                 id="id-b03"
                 type="email"
                 name="id-b03"
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
                 placeholder="your name"
                 className="peer relative h-10 w-full rounded border border-slate-200 px-4 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:border-emerald-500 focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
               />
@@ -39,6 +71,7 @@ export default function Login() {
                 id="id-b13"
                 type="password"
                 name="id-b13"
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
                 placeholder="your password"
                 className="peer relative h-10 w-full rounded border border-slate-200 px-4 pr-12 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:border-emerald-500 focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
               />
@@ -77,7 +110,11 @@ export default function Login() {
         </div>
         {/*  <!-- Action base sized basic button --> */}
         <div className="flex justify-end p-6 ">
-          <button className="inline-flex h-10 w-full items-center justify-center gap-2 whitespace-nowrap rounded bg-emerald-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+          <button
+            type="button"
+            onClick={handleLogin}
+            disabled={!isDataValid() || loading}
+           className="inline-flex h-10 w-full items-center justify-center gap-2 whitespace-nowrap rounded bg-emerald-500 px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
             <span>Log in</span>
           </button>
         </div>

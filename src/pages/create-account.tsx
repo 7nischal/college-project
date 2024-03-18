@@ -1,18 +1,36 @@
 import { useState } from "react";
+import { createUsers } from "../services/black/user-services";
+import { useNavigate } from "react-router-dom";
 
 const CreateAccount = () => {
+    const navigate = useNavigate();
     const [formState, setFormState] = useState({
         firstName: '',
         lastName: '',
         email: '',
         phone: '',
         password: '',
+        confirmPassword: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => {
+        setIsSubmitting(true);
+        let user = {
+            name: data.firstName + ' ' + data.lastName,
+            email: data.email,
+            username: data.firstName + '_' + data.lastName,
+            phone: data.phone,
+            password: data.password,
+            passwordConfirm: data.confirmPassword
+        }
+        createUsers(user).then((res) => {
+            navigate('/login');
+        });
+    };
     
     const validateForm = () => {
-        if (!formState.firstName || !formState.lastName || !formState.email || !formState.password) {
+        if (!formState.firstName || !formState.lastName || !formState.email || !formState.password || (formState.password !== formState.confirmPassword)) {
             return false;
         }
 
@@ -134,6 +152,29 @@ const CreateAccount = () => {
                                     htmlFor="id-b03"
                                     className="absolute left-2 -top-2 z-[1] px-2 text-xs text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-invalid:text-pink-500 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-invalid:peer-focus:text-pink-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent"
                                 >
+                                    Confirm Password 
+                                    <strong
+                                        className="text-pink-500"
+                                    >
+                                         *
+                                    </strong>
+                                </label>
+                                <input
+                                    id="id-b03"
+                                    type="password"
+                                    name="id-b03"
+                                    placeholder="Confirm Password"
+                                    className="peer relative h-10 w-full rounded border border-slate-200 px-4 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:border-emerald-500 focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
+                                    value={formState.confirmPassword}
+                                    onChange={(e) => setFormState({ ...formState, confirmPassword: e.target.value })}
+                                />
+                            </div>
+
+                            <div className="relative my-6">
+                                <label 
+                                    htmlFor="id-b03"
+                                    className="absolute left-2 -top-2 z-[1] px-2 text-xs text-slate-400 transition-all before:absolute before:top-0 before:left-0 before:z-[-1] before:block before:h-full before:w-full before:bg-white before:transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-required:after:text-pink-500 peer-required:after:content-['\00a0*'] peer-invalid:text-pink-500 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-500 peer-invalid:peer-focus:text-pink-500 peer-disabled:cursor-not-allowed peer-disabled:text-slate-400 peer-disabled:before:bg-transparent"
+                                >
                                     Phone
                                 </label>
                                 <input
@@ -153,7 +194,7 @@ const CreateAccount = () => {
                         >
                             <button
                                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 ease-in-out my-6 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
-                                disabled={!validateForm()}
+                                disabled={!validateForm() || isSubmitting}
                                 onClick={() => onSubmit(formState)}
                             >
                                 Create Account
