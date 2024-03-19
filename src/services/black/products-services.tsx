@@ -1,4 +1,5 @@
 import PocketBase from 'pocketbase';
+import { getMyId } from './user-services';
 
 const pb = new PocketBase('https://black.pockethost.io');
 
@@ -22,9 +23,29 @@ const createAddress = async (data:any) => {
     return record;
 }
 
+const getOrders = async () => {
+    let myId = await getMyId();
+    const records = await pb.collection('orders').getFullList(
+        {
+            filter: "user.id = '" + myId + "'",
+            expand: 'product'
+        }
+    );
+    return records;
+}
+
+const getOrdersById = async (id:any) => {
+    const record = await pb.collection('orders').getOne(id, {
+        expand: 'product'
+    });
+    return record;
+}
+
 export {
     getProducts,
     getProductsById,
     createOrder,
-    createAddress
+    createAddress,
+    getOrders,
+    getOrdersById
 };

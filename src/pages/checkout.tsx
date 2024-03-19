@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../services/cart-services";
+import { clearCart, getCart } from "../services/cart-services";
 import { useEffect, useState } from "react";
 import { createAddress, createOrder, getProductsById } from "../services/black/products-services";
 import { getMyId } from "../services/black/user-services";
-
 
 
 
@@ -24,6 +23,7 @@ const Checkout = () => {
             zip: ''
         }
     );
+    const [cartJson, setCartJson] = useState<any>();
     const navigate  = useNavigate();
 
     const total = () => {
@@ -41,6 +41,7 @@ const Checkout = () => {
 
     const getCartItems = async () => {
         let cart = await getCart();
+        setCartJson(cart);
         let newCart = [];
         for (let i = 0; i < cart.length; i++) {
             const product = await getProductsById(cart[i].id);
@@ -74,7 +75,9 @@ const Checkout = () => {
         let order:any = {
             product: [],
             address: '',
-            user: await getMyId()
+            user: await getMyId(),
+            cart: cartJson,
+            total: total()
         }
 
         for (let i = 0; i < cart.length; i++) {
@@ -85,8 +88,12 @@ const Checkout = () => {
         order.address = address.id;
 
         let newOrder = await createOrder(order);
-        // navigate('/order-confirmation');
-        console.log(newOrder);
+        clearCart();
+        navigate('/orders');
+    }
+
+    const calculateDiscount = (price:any, discount:any) => {
+        return price - (price * (parseInt(discount) / 100));
     }
 
     return (
@@ -139,7 +146,28 @@ const Checkout = () => {
                                             <p
                                                 className="text-lg"
                                             >
-                                                ${product.price}
+                                                {
+                                                    product.sale ? (
+                                                        <>
+                                                            <span
+                                                                className="text-gray-500 line-through"
+                                                            >
+                                                                ${product.price}
+                                                            </span>
+                                                            <p
+                                                                className="text-green-500"
+                                                            >
+                                                                ${calculateDiscount(product.price, product.sale)}
+                                                            </p>
+                                                        </>
+                                                    ):(
+                                                        <span
+                                                            className="text-green-500"
+                                                        >
+                                                            ${product.price}
+                                                        </span>
+                                                    )
+                                                }
                                             </p>
                                             <p
                                                 className="text-lg"

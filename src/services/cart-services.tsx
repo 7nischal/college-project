@@ -83,6 +83,11 @@ const updateAllCartItems = (cartItems:any) => {
     dispatchCartUpdate();
 }
 
+const clearCart = () => {
+    Cookies.remove("cart");
+    dispatchCartUpdate();
+}
+
 export {
     addToCart,
     getCart,
@@ -90,5 +95,6 @@ export {
     getItemQuantity,
     reduceQuantity,
     getTotalItems,
-    updateAllCartItems
+    updateAllCartItems,
+    clearCart
 };
