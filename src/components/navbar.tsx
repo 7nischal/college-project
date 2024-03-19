@@ -88,7 +88,7 @@ export default function Navbar() {
                   role="menuitem"
                   aria-haspopup="false"
                   className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                  onClick={() => navigate("/")}
+                  onClick={() => {navigate("/") ; setIsToggleOpen(false)}}
                 >
                   <span>
                     Home
@@ -101,7 +101,10 @@ export default function Navbar() {
                   aria-current="page"
                   aria-haspopup="false"
                   className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                  onClick={() => navigate("/shop")}
+                  onClick={() => {
+                    setIsToggleOpen(false)
+                    navigate("/shop")
+                  }}
                 >
                   <span>
                     Products
@@ -118,7 +121,7 @@ export default function Navbar() {
                           aria-current="page"
                           aria-haspopup="false"
                           className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                          onClick={() => navigate("/orders")}
+                          onClick={() => {navigate("/orders") ; setIsToggleOpen(false)}}
                         >
                           <span>
                             Orders
@@ -131,7 +134,7 @@ export default function Navbar() {
                           aria-current="page"
                           aria-haspopup="false"
                           className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                          onClick={() => logout()}
+                          onClick={() => {logout() ; setIsToggleOpen(false)}}
                         >
                           <span>
                             logout
@@ -148,7 +151,7 @@ export default function Navbar() {
                           aria-current="page"
                           aria-haspopup="false"
                           className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                          onClick={() => navigate("/login")}
+                          onClick={() => {navigate("/login") ; setIsToggleOpen(false)}}
                         >
                           <span>
                             Login
@@ -161,7 +164,7 @@ export default function Navbar() {
                           aria-current="page"
                           aria-haspopup="false"
                           className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                          onClick={() => navigate("/create-account")}
+                          onClick={() => {navigate("/create-account") ; setIsToggleOpen(false)}}
                         >
                           <span>
                             Create Account
