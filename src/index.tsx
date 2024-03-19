@@ -13,8 +13,16 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <CartProvider>
-      <Navbar />
-      <App />
+      <div
+        className="fixed w-full z-50 top-0 left-0 right-0"
+      >
+        <Navbar />
+      </div>
+      <div
+        className="mt-[100px]"
+      >
+        <App />
+      </div>
     </CartProvider>
   </BrowserRouter>
 );
