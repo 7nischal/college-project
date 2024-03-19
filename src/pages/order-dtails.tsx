@@ -10,38 +10,16 @@ const OrderDetails = () => {
 
     const getAllOrders = async () => {
         const orders = await getOrdersById(id);
-        console.log(orders);
-        setOrder(orders);
+        // console.log(orders);
+        await updateDetails(orders);
     }
 
-    const updateDetails = (data: any) => {
-        if (data && data.expand && data.expand.product) {
-            const updatedProducts = data.expand.product.map((product: any) => {
-                // Calculate the discounted price
-                const discountedPrice = product.price - (product.price * product.discount) / 100;
-                
-                
-                // Add or update details about the product
-                return {
-                    ...product,
-                    discountedPrice,
-                    totalPrice: discountedPrice * product.quantity
-                };
+    const updateDetails = (data:any) => {
+            data.cart.map((item:any) => {
+                const cartItem = data.expand.product.find((product:any) => product.id == item.id);
+                cartItem.quantity = item.quantity;
             });
-
-            // Update the total price
-            const updatedTotal = updatedProducts.reduce((acc: number, product: any) => acc + product.totalPrice, 0);
-
-            // Set the updated order details
-            setOrder({
-                ...data,
-                expand: {
-                    ...data.expand,
-                    product: updatedProducts
-                },
-                total: updatedTotal
-            });
-        }
+            setOrder(data);
     }
 
     useEffect(() => {
@@ -139,7 +117,7 @@ const OrderDetails = () => {
                                         <p
                                             className="text-xl font-bold text-gray-800"
                                         >
-                                            ${order.expand.product.reduce((acc:any, product:any) => acc + (product.price * product.quantity), 0)}
+                                            ${order.total}
                                         </p>
                                     </div>
                                 </div>
