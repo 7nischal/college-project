@@ -1,15 +1,25 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Logo from "../asstes/logo.png"
 import { getTotalItems} from "../services/cart-services"
 import { useCart } from "./CartContext";
 import { useNavigate } from "react-router-dom";
+import { isAuth, logout } from "../services/black/user-services";
 
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isToggleOpen, setIsToggleOpen] = useState(false)
+  const [isLogged, setIsLogged] = useState<any>(false);
   const { quantity } = useCart();
   
+  useEffect(() => {
+    const checkAuth = async () => {
+      const response = await isAuth();
+      setIsLogged(response);
+    }
+    checkAuth();
+  }, []);
+
   return (
     <>
       {/*<!-- Header --> */}
@@ -90,7 +100,7 @@ export default function Navbar() {
                   role="menuitem"
                   aria-current="page"
                   aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 text-emerald-500 transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
                   onClick={() => navigate("/shop")}
                 >
                   <span>
@@ -98,16 +108,69 @@ export default function Navbar() {
                   </span>
                 </a>
               </li>
-              <li role="none" className="flex items-stretch">
-                <a
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
-                  onClick={() => navigate("/login")}
-                >
-                  <span>Login</span>
-                </a>
-              </li>
+              {
+                isLogged ? 
+                  (
+                    <>
+                      <li role="none" className="flex items-stretch">
+                        <a
+                          role="menuitem"
+                          aria-current="page"
+                          aria-haspopup="false"
+                          className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                          onClick={() => navigate("/orders")}
+                        >
+                          <span>
+                            Orders
+                          </span>
+                        </a>
+                      </li>
+                      <li role="none" className="flex items-stretch">
+                        <a
+                          role="menuitem"
+                          aria-current="page"
+                          aria-haspopup="false"
+                          className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                          onClick={() => logout()}
+                        >
+                          <span>
+                            logout
+                          </span>
+                        </a>
+                      </li>
+                    </>
+                  ):
+                  (
+                    <>
+                      <li role="none" className="flex items-stretch">
+                        <a
+                          role="menuitem"
+                          aria-current="page"
+                          aria-haspopup="false"
+                          className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                          onClick={() => navigate("/login")}
+                        >
+                          <span>
+                            Login
+                          </span>
+                        </a>
+                      </li>
+                      <li role="none" className="flex items-stretch">
+                        <a
+                          role="menuitem"
+                          aria-current="page"
+                          aria-haspopup="false"
+                          className="flex items-center gap-2 py-4  transition-colors duration-300 hover:text-emerald-600 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8 cursor-pointer"
+                          onClick={() => navigate("/create-account")}
+                        >
+                          <span>
+                            Create Account
+                          </span>
+                        </a>
+                      </li>
+                    </>
+                  )
+              }
             </ul>
             {/*      <!-- Actions --> */}
             <div className="ml-auto flex items-center justify-end px-6 lg:ml-0 lg:flex-1 lg:p-0">

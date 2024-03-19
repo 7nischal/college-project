@@ -20,7 +20,7 @@ export default function Login() {
             try {
                 const response = await login(user)
                 console.log(response)
-                navigate("/")
+                window.location.href = "/"
             } catch (error:any) {
                 console.log(error)
                 setError(error.message)
