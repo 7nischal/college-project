@@ -19,6 +19,16 @@ const Home = () => {
     }
     , []);
 
+    const setSalePrice = (product:any) => {
+        if (product.sale) {
+            const discountedPrice = product.price - (product.price * (parseInt(product.sale) / 100));
+            return discountedPrice.toFixed(2);
+        }
+        else {
+            return product.price.toFixed(2);
+        }
+    }
+
     return (
         <>
             {/* Hero Section */}
@@ -125,7 +135,31 @@ const Home = () => {
                                             {product.name}
                                         </h3>
                                         <p className="text-lg font-bold">
-                                            ${product.price}
+                                            {
+                                                product.sale !== '' ? (
+                                                    <>        
+                                                        <div>
+                                                        
+                                                            <span
+                                                                className="line-through text-red-500"
+                                                            >
+                                                                ${product.price}
+                                                            </span>
+                                                        </div> 
+                                                        <div>
+                                                            <span>
+                                                                ${setSalePrice(product)}
+                                                            </span>
+                                                        </div>                       
+                                                    </>
+                                                ) : (
+                                                    <div>
+                                                        <span>
+                                                            ${product.price}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            }
                                         </p>
                                     </div>
 

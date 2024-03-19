@@ -16,6 +16,17 @@ const AllProducts = () => {
         getAllProducts();
     }, []);
 
+
+    const setSalePrice = (product:any) => {
+        if (product.sale) {
+            const discountedPrice = product.price - (product.price * (parseInt(product.sale) / 100));
+            return discountedPrice.toFixed(2);
+        }
+        else {
+            return product.price.toFixed(2);
+        }
+    }
+
     return (
         <>
 
@@ -51,7 +62,34 @@ const AllProducts = () => {
                                     />
                                     <div className="p-4">
                                         <h2 className="font-bold text-xl mb-2">{product.name}</h2>
-                                        <p className="text-gray-600">${product.price}</p>
+                                        
+                                        <p className="font-bold text-lg">
+                                            {
+                                                product.sale !== '' ? (
+                                                    <>        
+                                                        <div>
+                                                        
+                                                            <span
+                                                                className="line-through text-red-500"
+                                                            >
+                                                                ${product.price}
+                                                            </span>
+                                                        </div> 
+                                                        <div>
+                                                            <span>
+                                                                ${setSalePrice(product)}
+                                                            </span>
+                                                        </div>                       
+                                                    </>
+                                                ) : (
+                                                    <div>
+                                                        <span>
+                                                            ${product.price}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            }
+                                        </p>
                                     </div>
                                 </div>
                             ))}
