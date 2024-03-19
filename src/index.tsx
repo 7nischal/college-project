@@ -14,12 +14,12 @@ root.render(
   <BrowserRouter>
     <CartProvider>
       <div
-        className="fixed w-full z-50 top-0 left-0 right-0"
+        className="fixed w-full z-50 top-0 left-0 right-0 bg-white"
       >
         <Navbar />
       </div>
       <div
-        className="mt-[100px]"
+        className="mt-[80px]"
       >
         <App />
       </div>
