@@ -89,19 +89,6 @@ const Orders = () => {
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            className="flex items-center"
-                                                        >
-                                                            <div
-                                                                className="flex items-center"
-                                                            >
-                                                                <p
-                                                                    className="text-xl font-bold"
-                                                                >
-                                                                    Quantity: {order.expand.product[0].quantity}
-                                                                </p>
-                                                            </div>
-                                                        </div>
                                                     </div>
 
                                                     <p>
