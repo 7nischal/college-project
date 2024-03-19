@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOrdersById } from "../services/black/products-services";
 
 
 const OrderDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [order, setOrder] = useState<any>();
-    
+    const navigate = useNavigate();
 
     const getAllOrders = async () => {
         const orders = await getOrdersById(id);
@@ -75,7 +75,10 @@ const OrderDetails = () => {
                                                 className="my-4"
                                             >
                                                 <p
-                                                    className="text-xl font-bold text-gray-800"
+                                                    className="text-xl font-bold cursor-pointer text-blue-500 hover:text-blue-600 transition-all duration-300 ease-in-out underline"
+                                                    onClick={() => {
+                                                        navigate(`/product-details/${product.id}`);
+                                                    }}
                                                 >
                                                     {product.name}
                                                 </p>
