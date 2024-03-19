@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProducts } from "../services/black/products-services";
+import { getProducts, productImageUrl } from "../services/black/products-services";
 
 
 const AllProducts = () => {
@@ -45,7 +45,7 @@ const AllProducts = () => {
 
                                 >
                                     <img 
-                                        src={product.image}
+                                        src={productImageUrl() + product.id + '/' + product.image[0]}
                                         alt={product.name}
                                         className="w-full h-64 object-cover object-center"
                                     />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { addToCart, getItemQuantity, reduceQuantity, removeFromCart } from "../services/cart-services";
-import { getProductsById } from "../services/black/products-services";
+import { getProductsById, productImageUrl } from "../services/black/products-services";
 
 
 const ProductDetails = () => {
@@ -51,8 +51,9 @@ const ProductDetails = () => {
                             <div
                                 className=""
                             >
+                                {/* api/files/COLLECTION_ID_OR_NAME/RECORD_ID/FILENAME */}
                                 <img
-                                    src={product.image}
+                                    src={productImageUrl() + product.id + '/' + product.image[0]}
                                     alt={product.name}
                                     className="w-64 h-64 object-cover rounded-lg shadow-lg"
                                 />

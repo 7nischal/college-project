@@ -41,11 +41,17 @@ const getOrdersById = async (id:any) => {
     return record;
 }
 
+// api/files/COLLECTION_ID_OR_NAME/RECORD_ID/FILENAME
+const productImageUrl = () => {
+    return "https://black.pockethost.io/api/files/products/";
+}
+
 export {
     getProducts,
     getProductsById,
     createOrder,
     createAddress,
     getOrders,
-    getOrdersById
+    getOrdersById,
+    productImageUrl
 };

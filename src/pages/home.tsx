@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import HeroBg from '../asstes/hero-bg.webp'
 import { addToCart } from '../services/cart-services';
 import { useNavigate } from 'react-router-dom';
-import { getProducts } from '../services/black/products-services';
+import { getProducts, productImageUrl } from '../services/black/products-services';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -111,8 +111,9 @@ const Home = () => {
                                     className="flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-lg transition duration-300 ease-in-out hover:shadow-xl hover:scale-105 transform hover:bg-gray-200 m-6 min-w-1/4 max-w-1/4 h-9/1 cursor-pointer"
                                     onClick={() => navigate(`/product-details/${product.id}`)}
                                 >
+                                    {/* api/files/COLLECTION_ID_OR_NAME/RECORD_ID/FILENAME */}
                                     <img 
-                                        src={product.image}
+                                        src={productImageUrl() + product.id + '/' + product.image}
                                         alt={product.name}
                                         className="w-48 h-48 object-cover rounded-lg"
 
