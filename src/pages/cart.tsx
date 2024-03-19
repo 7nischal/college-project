@@ -54,7 +54,7 @@ const Cart = () => {
                                 
                             >
                                 <div
-                                    className=" lg:flex"
+                                    className=""
                                 >
                                     <div
                                         className="my-4"

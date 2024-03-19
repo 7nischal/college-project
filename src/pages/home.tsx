@@ -1,60 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HeroBg from '../asstes/hero-bg.webp'
 import { addToCart } from '../services/cart-services';
 import { useNavigate } from 'react-router-dom';
+import { getProducts } from '../services/black/products-services';
 
 const Home = () => {
     const navigate = useNavigate();
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: 'Product 1',
-            price: 19.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            price: 29.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 3,
-            name: 'Product 3',
-            price: 39.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 4,
-            name: 'Product 4',
-            price: 49.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 5,
-            name: 'Product 5',
-            price: 59.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 6,
-            name: 'Product 6',
-            price: 69.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 7,
-            name: 'Product 7',
-            price: 79.99,
-            image: 'https://via.placeholder.com/150'
-        },
-        {
-            id: 8,
-            name: 'Product 8',
-            price: 89.99,
-            image: 'https://via.placeholder.com/150'
-        },
-    ]);
+    const [products, setProducts] = useState<any>();
+
+    const getAllProducts = async () => {
+        const products:any = await getProducts();
+        setProducts(products);
+        console.log(products);
+    }
+
+    useEffect(() => {
+        getAllProducts();
+    }
+    , []);
 
     return (
         <>
@@ -135,47 +98,51 @@ const Home = () => {
             </section>
 
             {/* Best selling products*/}
-            <section className="flex flex-col items-center justify-center p-8">
-                <h2 className="text-4xl font-bold text-center p-4">
-                    Best Selling Products
-                </h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {products.map((product) => (
-                        <div 
-                            key={product.id}
-                            className="flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-lg transition duration-300 ease-in-out hover:shadow-xl hover:scale-105 transform hover:bg-gray-200 m-6 min-w-1/4 max-w-1/4 h-9/1 cursor-pointer"
-                            onClick={() => navigate(`/product-details/${product.id}`)}
-                        >
-                            <img 
-                                src={product.image}
-                                alt={product.name}
-                                className="w-48 h-48 object-cover rounded-lg"
+            {
+                products && (
+                    <section className="flex flex-col items-center justify-center p-8">
+                        <h2 className="text-4xl font-bold text-center p-4">
+                            Best Selling Products
+                        </h2>
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            {products.map((product:any) => (
+                                <div 
+                                    key={product.id}
+                                    className="flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-lg transition duration-300 ease-in-out hover:shadow-xl hover:scale-105 transform hover:bg-gray-200 m-6 min-w-1/4 max-w-1/4 h-9/1 cursor-pointer"
+                                    onClick={() => navigate(`/product-details/${product.id}`)}
+                                >
+                                    <img 
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="w-48 h-48 object-cover rounded-lg"
 
-                            />
-                            <div
-                                className="flex flex-col items-center justify-center p-4"
-                            >
-                                <h3 className="text-xl font-bold">
-                                    {product.name}
-                                </h3>
-                                <p className="text-lg font-bold">
-                                    ${product.price}
-                                </p>
-                            </div>
+                                    />
+                                    <div
+                                        className="flex flex-col items-center justify-center p-4"
+                                    >
+                                        <h3 className="text-xl font-bold">
+                                            {product.name}
+                                        </h3>
+                                        <p className="text-lg font-bold">
+                                            ${product.price}
+                                        </p>
+                                    </div>
 
-                            <button 
-                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
-                                onClick={() => {
-                                    addToCart(product.id , product.name);
-                                }}
-                            >
-                                Add to Cart
-                            </button>
+                                    <button 
+                                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out"
+                                        onClick={() => {
+                                            addToCart(product.id , product.name);
+                                        }}
+                                    >
+                                        Add to Cart
+                                    </button>
 
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </section>
+                    </section>
+                )
+            }
         </>
     );
 };

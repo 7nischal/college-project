@@ -27,9 +27,21 @@ const logout = async () => {
     window.location.href = '/';
 }
 
+const getMyId = async () => {
+    const id = pb.authStore.model?.id;
+    return id;
+}
+
+const isAuth = async () => {
+    const isAuth = pb.authStore.isValid;
+    return isAuth;
+}
+
 export {
     createUsers,
     getUser,
     login,
-    logout
+    logout,
+    getMyId,
+    isAuth
 };

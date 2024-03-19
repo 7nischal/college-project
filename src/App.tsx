@@ -10,6 +10,7 @@ import CreateAccount from './pages/create-account';
 import Cart from './pages/cart';
 import Orders from './pages/orders';
 import OrderDetails from './pages/order-dtails';
+import Checkout from './pages/checkout';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/order-details/:id" element={<OrderDetails />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </>
   );
